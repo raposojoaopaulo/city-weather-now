@@ -7,3 +7,8 @@ export const apiWeather = (city: string) => {
 export const apiCountry = (country: string) => {
   return `https://countryflagsapi.com/png/${country}`
 };
+
+export const apiUnsplash = (city: string) => {
+  return `https://source.unsplash.com/1920x1080/?${city}`;
+};
+

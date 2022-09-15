@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import './App.css';
 import { BsSearch, BsPinMapFill, BsDroplet, BsWind } from 'react-icons/bs';
-import { apiWeather, apiCountry } from './providers/openWeatherApi';
+import { apiWeather, apiCountry, apiUnsplash } from './providers/openWeatherApi';
 
 function App() {
   const [city, setCity] = useState('');
@@ -15,6 +15,8 @@ function App() {
   const [icon, setIcon] = useState('');
   const [humidity, setHumidity] = useState('');
   const [wind, setWind] = useState('');
+
+  const weatherContainer = document.querySelector('#weather-data');
 
 
   const handleSearch = (e: any) => {
@@ -37,6 +39,12 @@ function App() {
       setTemp(parseInt(data.main.temp).toString());
       setHumidity(data.main.humidity);
       setWind(data.wind.speed);
+
+      document.body.style.backgroundImage = `url("${apiUnsplash(city)}")`;
+
+      console.log(apiUnsplash(city));
+
+      weatherContainer?.classList.remove('hide');
     } else {
       setError(true);
     }
@@ -54,12 +62,12 @@ function App() {
               id='city-input' 
               onChange={(e) => setCity(e.target.value)}
             />
-            <button id="search" onClick={handleSearch} >
+            <button type="submit" id="search" onClick={handleSearch} >
               <BsSearch />
             </button>
           </div>
         </div>
-        <div id="weather-data">
+        <div id="weather-data" className="hide">
           <h2>
             <BsPinMapFill />
             <span id="city-name">{cityName}</span>
@@ -80,7 +88,7 @@ function App() {
           </div>
           <div id="details-container">
             <p id="humidity">
-              <BsDroplet /> <span>{humidity}</span>%              
+              <BsDroplet /> <span>{humidity}%</span>             
             </p>
             <p id="wind">
               <BsWind /> <span>{wind}km/h</span>           
